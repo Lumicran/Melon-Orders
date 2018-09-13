@@ -1,4 +1,5 @@
 """Classes for melon orders."""
+import random
 class AbstractMelonOrder:
     shipped = False
     flat_fee = 0
@@ -13,9 +14,13 @@ class AbstractMelonOrder:
 
         self.shipped = True
 
+    def get_base_price(self):
+        base_price = random.randint(5, 9)
+        return base_price
+
     def get_total(self):
         """Calculate price, including tax."""
-        base_price = 5
+        base_price = self.get_base_price()
 
         if self.species.lower() == "christmas melon":
             base_price = 1.5 * base_price
