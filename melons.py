@@ -2,9 +2,6 @@
 import random
 import datetime
 
-
-
-
 class AbstractMelonOrder:
     shipped = False
     flat_fee = 0
@@ -12,7 +9,13 @@ class AbstractMelonOrder:
     def __init__(self, species, qty, country_code):
         self.species = species
         self.qty = qty
+        if self.qty > 100:
+            raise TooManyMelonsError("No more than 100 melons!")
+
         self.country_code = country_code
+
+   # def raise_error(self):
+        
 
     def mark_shipped(self):
         """Record the fact than an order has been shipped."""
@@ -22,14 +25,13 @@ class AbstractMelonOrder:
     def get_base_price(self):
         weekday = datetime.datetime.now().weekday()
         hour = datetime.datetime.now().hour
-        
+
         base_price = random.randint(5, 9)
 
         if 0 <= weekday <= 5 and 8 <= hour < 11:
 
             base_price += 4
        
-            
         return base_price
 
     def get_total(self):
@@ -41,6 +43,12 @@ class AbstractMelonOrder:
 
         total = (1 + self.tax) * self.qty * base_price + self.flat_fee
         return total
+
+
+class TooManyMelonsError(ValueError):
+    """error message for more than 100 melons"""
+    pass
+
 
 
 class DomesticMelonOrder(AbstractMelonOrder):
@@ -83,3 +91,5 @@ class GovernmentMelonOrder(AbstractMelonOrder):
     def mark_inspection(self, passed):
         self.passed_inspection = passed
 
+order = DomesticMelonOrder('watermelon', 110)
+print (order)
