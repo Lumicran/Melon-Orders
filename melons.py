@@ -1,5 +1,10 @@
 """Classes for melon orders."""
 import random
+import datetime
+
+
+
+
 class AbstractMelonOrder:
     shipped = False
     flat_fee = 0
@@ -15,7 +20,16 @@ class AbstractMelonOrder:
         self.shipped = True
 
     def get_base_price(self):
+        weekday = datetime.datetime.now().weekday()
+        hour = datetime.datetime.now().hour
+        
         base_price = random.randint(5, 9)
+
+        if 0 <= weekday <= 5 and 8 <= hour < 11:
+
+            base_price += 4
+       
+            
         return base_price
 
     def get_total(self):
